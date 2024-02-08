@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import sendEmail from "../email/email";
+
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -15,10 +17,10 @@ const Contact = () => {
             [name]: value,
         });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add your logic for handling the form submission here
         setIsSent(true);
+        await sendEmail(formData);
     };
 
     return (
@@ -54,9 +56,8 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit" className="button-link" disabled={isSent}>Send</button>
+                    {isSent ? <p>Your email was sent! We'll be right on it!</p> : <button type="submit" className="button-link" disabled={isSent}>Send</button>}
                     </form>
-                {isSent && <p>Your email was sent! We'll be right on it!</p>}
             </div>
         </main>
     );
