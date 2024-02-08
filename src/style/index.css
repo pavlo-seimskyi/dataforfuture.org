@@ -1,8 +1,9 @@
 :root {
     --dark: #343434;
-    --light: #F1F1F1;
+    --gray: #676767;
+    --lightgray: #CFCFCF;
+    --white: #F1F1F1;
     --cyan: #2EC5C5;
-    --graytext: #676767;
 }
 
 body {
@@ -19,12 +20,12 @@ body {
 
 .bg-dark {
     background-color: var(--dark);
-    color: var(--light);
+    color: var(--white);
 }
 
 .bg-light {
-    background-color: var(--light);
-    color: var(--graytext);
+    background-color: var(--white);
+    color: var(--gray);
 }
 
 .status-loading {
@@ -52,7 +53,7 @@ body {
 }
 
 .home .status-error {
-    color: var(--light);
+    color: var(--white);
 }
 
 hr {
@@ -99,7 +100,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #cfcfcf;
+    color: var(--lightgray);
 }
 
 .mobile-menu-icon {
@@ -133,8 +134,8 @@ nav a:hover {
         top: 50px;
         left: 0;
         margin: 0;
-        color: var(--graytext);
-        background-color: var(--light);
+        color: var(--gray);
+        background-color: var(--white);
         overflow: hidden;
         max-height: 0;
         transition: all 0.25s ease-in-out;
@@ -336,7 +337,7 @@ main {
 
 .load-more-button {
     text-decoration: none;
-    color: #cfcfcf;
+    color: var(--lightgray);
     text-transform: uppercase;
     font-weight: 700;
     display: flex;
@@ -386,7 +387,7 @@ main {
 .about-us h4 {
     font-family: "Montserrat";
     font-size: 26px;
-    color: var(--graytext);
+    color: var(--gray);
     margin: 10px 0;
 }
 
@@ -449,11 +450,11 @@ main {
 
 .support .button-link {
     background-color: #fff;
-    color: var(--graytext);
+    color: var(--gray);
 }
 
 .support .button-link:hover {
-    background-color: #cfcfcf;
+    background-color: var(--lightgray);
 }
 
 .episodes .status-loading {
@@ -462,7 +463,7 @@ main {
 }
 
 .episodes .status-error {
-    color: var(--graytext);
+    color: var(--gray);
     min-height: inherit;
     padding: 0px;
 }
@@ -496,7 +497,7 @@ main {
     display: flex;
     box-sizing: border-box;
     background-color: #fff;
-    color: var(--graytext);
+    color: var(--gray);
     border-radius: 15px;
     gap: 0px;
     padding: 0;
@@ -558,6 +559,12 @@ main {
     border-radius: 5px;
 }
 
+.episode-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .episode-page-background {
     color: #fff;
     background-image: url("/src/img/background.webp");
@@ -597,13 +604,26 @@ main {
     margin: 0px;
 }
 
+.episode-page-content-background {
+    flex-grow: 1;
+}
+
 .episode-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     padding: 30px 0;
     width: 90%;
     max-width: 830px;
+    min-height: 100%;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+}
+
+.episode-page-content > * {
+    margin: 10px;
 }
 
 .contact {
@@ -644,10 +664,10 @@ main {
     font-family: inherit; 
     font-size: 16px;
     border-radius: 30px;
-    background-color: #cfcfcf;
-    color: var(--graytext);
+    background-color: var(--lightgray);
+    color: var(--gray);
     border-width: 1px;
-    border: 1px solid #cfcfcf;
+    border: 1px solid var(--lightgray);
     border-image: none;
     padding: 15px;
     box-shadow: none;

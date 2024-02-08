@@ -6,7 +6,10 @@ import { FaSpotify, FaApple } from "react-icons/fa";
 import { BiTime } from "react-icons/bi";
 import { formatDate } from './utils';
 import Icon from './Icon';
+import StatusLoading from "./StatusLoading";
+import StatusError from "./StatusError";
 
+const STATUS_COLOR = "#343434";
 
 function EpisodePage() {
     const { episodeId } = useParams();
@@ -24,16 +27,16 @@ function EpisodePage() {
 
     if (episode.isLoading) {
         return (
-            <main>
-                <p>Loading...</p>
+            <main className="episode-page">
+                <StatusLoading color={STATUS_COLOR} />
             </main>
         );
     }
 
     if (episode.hasError) {
         return (
-            <main>
-                <p>Oops... Something went wrong!</p>
+            <main className="episode-page">
+                <StatusError />
             </main>
         );
     }
@@ -66,8 +69,11 @@ function EpisodePage() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-light">
-                    <div className="episode-page-content" dangerouslySetInnerHTML={{ __html: data.content }} />
+                <div className="bg-light episode-page-content-background">
+                    <div 
+                        className="episode-page-content"
+                        dangerouslySetInnerHTML={{ __html: data.content }} 
+                    />
                 </div>
             </main>
         )
