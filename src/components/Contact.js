@@ -1,26 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import sendEmail from "../email/email";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        message: ""
+        message: "",
     });
-    const [isSent, setIsSent] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [formSubmittedMessage, setFormSubmittedMessage] = useState("");
+    const captchaRef = useRef(null);
 
-    const handleChange = (e) => {
+    const handleFormInput = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
         });
     };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSent(true);
-        await sendEmail(formData);
+        const token = captchaRef.current.getValue();
+        captchaRef.current.reset();
+        setFormSubmitted(true);
+        setFormSubmittedMessage("Loading...");
+        try {
+            const response = await sendEmail({
+                ...formData,
+                "g-recaptcha-response": token,
+            });
+            if (response.status === 200) {
+                setFormSubmittedMessage("Your email was successfully sent!");
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            setFormSubmittedMessage("There was an error... Please contact me by phone or email directly.")
+            console.error(error);
+        }
     };
 
     return (
@@ -35,7 +55,7 @@ const Contact = () => {
                         name="name"
                         placeholder="Your Name"
                         value={formData.name}
-                        onChange={handleChange}
+                        onChange={handleFormInput}
                         required
                     />
                     <input
@@ -44,7 +64,7 @@ const Contact = () => {
                         name="email"
                         placeholder="Your Email"
                         value={formData.email}
-                        onChange={handleChange}
+                        onChange={handleFormInput}
                         required
                     />
                     <input
@@ -53,10 +73,18 @@ const Contact = () => {
                         name="message"
                         placeholder="Your Message"
                         value={formData.message}
-                        onChange={handleChange}
+                        onChange={handleFormInput}
                         required
                     />
-                    {isSent ? <p>Your email was sent! We'll be right on it!</p> : <button type="submit" className="button-link" disabled={isSent}>Send</button>}
+                    <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                        ref={captchaRef}
+                    />
+                    {formSubmitted ? (
+                        <p>{formSubmittedMessage}</p>
+                    ) : (
+                        <button type="submit" className="button-link" disabled={formSubmitted}>Send</button>
+                    )}
                     </form>
             </div>
         </main>
